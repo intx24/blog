@@ -1,18 +1,16 @@
 ---
-import BaseHead from '../../components/BaseHead.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
-import { getCollection } from 'astro:content';
-import FormattedDate from '../../components/FormattedDate.astro';
+import BaseHead from "../../components/BaseHead.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
+import FormattedDate from "../../components/FormattedDate.astro";
 
-const posts = (await getCollection('blog')).sort(
-	(a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
-);
+import { getAllBlogs } from "../../repositories/microcmsRepository";
+const res = await getAllBlogs({ fields: ["id", "title", "createdAt", "url"] });
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 		<style>
@@ -39,10 +37,14 @@ const posts = (await getCollection('blog')).sort(
 			<section>
 				<ul>
 					{
-						posts.map((post) => (
+						res.contents.map((content, index) => (
 							<li>
-								<FormattedDate date={post.data.pubDate} />
-								<a href={`/blog/${post.slug}/`}>{post.data.title}</a>
+								<FormattedDate
+									date={new Date(content.createdAt)}
+								/>
+								<a href={`/blog/${content.id}/`}>
+									{content.title}
+								</a>
 							</li>
 						))
 					}

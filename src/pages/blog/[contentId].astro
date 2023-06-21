@@ -1,0 +1,54 @@
+---
+import BaseHead from "../../components/BaseHead.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
+import BlogPost from "../../layouts/BlogPost.astro";
+
+import { getAllBlogs, getDetail } from "../../repositories/microcmsRepository";
+import { BlogDetail } from "../../types/microcmsTypes";
+
+export async function getStaticPaths() {
+	const res = await getAllBlogs({ fields: ["id"] });
+	return res.contents.map((content) => ({
+		params: { contentId: content.id },
+	}));
+}
+
+const { contentId } = Astro.params;
+console.log(contentId);
+const blogData: BlogDetail | null =
+	contentId == null ? null : await getDetail(contentId);
+console.log(blogData);
+---
+
+<html lang="ja">
+	<head>
+		<BaseHead title={blogData?.title ?? ""} description={"俺"} />
+		<style>
+			.title {
+				font-size: 2em;
+				margin: 0.25em 0 0;
+			}
+			hr {
+				border-top: 1px solid #ddd;
+				margin: 1rem 0;
+			}
+			.last-updated-on {
+				font-style: italic;
+			}
+		</style>
+	</head>
+
+	<body>
+		<Header />
+		<main>
+			<article>
+				<h1 class="title">{blogData?.title}</h1>
+				<hr />
+				<div set:html={blogData?.content ?? ""} />
+			</article>
+		</main>
+		<Footer />
+	</body>
+</html>
