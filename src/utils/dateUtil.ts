@@ -5,7 +5,7 @@ export function toPostCardEyecatchDate(value: string): PostCardEyecatchDate {
     const date = new Date(value);
 
     return {
-        month: months[date.getMonth() + 1],
+        month: months[date.getMonth()],
         date: ('00' + date.getDate()).slice(-2),
     };
 }
