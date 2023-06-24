@@ -41,7 +41,10 @@ const imageUrl = blogContent?.eyecatch?.url ?? noImageUrl;
 				))
 			}
 			<div class="mb-8"></div>
-			<div class="leading-8" set:html={content} />
+			<div
+				class="content w-full leading-8 overflow-hidden"
+				set:html={content}
+			/>
 		</div>
 	</main>
 </Layout>
