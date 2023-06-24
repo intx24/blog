@@ -3,6 +3,14 @@ import Layout from "../layouts/Layout.astro";
 import PostCard from "../components/PostCard.astro";
 
 import { findAll } from "../repositories/blogRepository";
+import { postCountPerPage } from "../consts";
+
+const page = Astro.url.searchParams.get("page")! || "";
+const tempPageNumber = page === "" ? 1 : parseInt(page);
+const currentPageNumber = tempPageNumber <= 0 ? 1 : tempPageNumber;
+let nextPageNumber = currentPageNumber + 1;
+const prevPageNumber = currentPageNumber - 1 <= 0 ? 1 : currentPageNumber - 1;
+
 const res = await findAll({
 	fields: [
 		"id",
@@ -13,7 +21,13 @@ const res = await findAll({
 		"eyecatch",
 		"category",
 	],
+	limit: postCountPerPage,
+	offset: postCountPerPage * (currentPageNumber - 1),
 });
+
+if (res.totalCount <= currentPageNumber * postCountPerPage) {
+	nextPageNumber = currentPageNumber;
+}
 const latestConent = res.contents[0];
 const contents = res.contents.slice(1);
 ---
@@ -69,6 +83,19 @@ const contents = res.contents.slice(1);
 						/>
 					))
 				}
+			</div>
+			<div class="grid grid-cols-1 place-items-center">
+				<div class="join">
+					<a href={`/?page=${prevPageNumber}`}>
+						<button class="join-item btn">«</button>
+					</a>
+					<button class="join-item btn"
+						>Page {currentPageNumber}</button
+					>
+					<a href={`/?page=${nextPageNumber}`}>
+						<button class="join-item btn">»</button>
+					</a>
+				</div>
 			</div>
 		</div>
 	</main>
