@@ -1,7 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import PostCard from "../components/PostCard.astro";
-import PostCardSide from "../components/PostCardSide.astro";
 
 import { findAll } from "../repositories/blogRepository";
 const res = await findAll({
@@ -16,7 +15,6 @@ const res = await findAll({
 	],
 });
 const latestConent = res.contents[0];
-console.log(res.contents);
 const contents = res.contents.slice(1);
 ---
 
@@ -26,7 +24,7 @@ const contents = res.contents.slice(1);
 			<div class="hero h-100 mt-8 mb-8 bg-primary-content">
 				<div class="hero-content text-center">
 					<div class="max-w-md">
-						<figure class="mb-4">
+						<figure class="mb-8">
 							<a href="https://github.com/ty24-github/blog">
 								<img
 									class="github-icon mx-auto hover:opacity-80"
@@ -36,24 +34,28 @@ const contents = res.contents.slice(1);
 								/>
 							</a>
 						</figure>
-						<h1 class="text-4xl font-bold">Hello there</h1>
-						<!-- <p class="py-6"></p> -->
+						<div
+							class="mockup-code bg-primary text-primary-content"
+						>
+							<pre data-prefix=">"><code>Hello there</code></pre>
+						</div>
+						<!-- <h1 class="text-4xl font-bold">Hello there</h1> -->
 					</div>
 				</div>
 			</div>
-			<div class="grid grid-cols-1 mb-8">
-				<PostCardSide
+
+			<div class="grid grid-cols-1 place-items-center">
+				<PostCard
 					contentId={latestConent.id}
 					title={latestConent.title}
 					content={latestConent.content}
 					eyecatch={latestConent.eyecatch}
 					category={latestConent.category}
 					createdAt={latestConent.createdAt}
+					isSide={true}
 				/>
 			</div>
-			<div
-				class="grid lg:grid-cols-4 md:grid-cols-2 mt-8 place-items-center"
-			>
+			<div class="grid grid-cols-1 lg:grid-cols-4 place-items-center">
 				{
 					contents.map((content) => (
 						<PostCard
@@ -63,6 +65,7 @@ const contents = res.contents.slice(1);
 							eyecatch={content.eyecatch}
 							category={content.category}
 							createdAt={content.createdAt}
+							isSide={false}
 						/>
 					))
 				}

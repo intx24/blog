@@ -1,6 +1,6 @@
 ---
 import Eyecatch from "./Eyecatch.astro";
-import { toPostDate } from "../utils/dateUtil";
+import { toPostCardEyecatchDate } from "../utils/dateUtil";
 import { removeTags, truncate } from "../utils/stringUtil";
 import { BlogContentCategory, BlogContentEyecatch } from "../types/blogTypes";
 
@@ -11,32 +11,45 @@ export interface Props {
     eyecatch?: BlogContentEyecatch;
     category?: BlogContentCategory;
     createdAt: string;
+    isSide: boolean;
 }
 
-const { contentId, title, content, eyecatch, createdAt, category } =
+const { contentId, title, content, eyecatch, createdAt, category, isSide } =
     Astro.props;
-const postDate = toPostDate(createdAt);
-const truncatedTitle = truncate(title ?? "", 25);
-const truncatedContent = truncate(removeTags(content ?? ""), 60);
-const noImageUrl = "/images/post/noimage.png";
+const eyecatchDate = toPostCardEyecatchDate(createdAt);
+const truncatedTitle = truncate(title ?? "Untitled", 20);
+const truncatedContent = truncate(removeTags(content ?? "No content"), 10000);
 const categories = category ? [category.name] : [];
+
+const cardAdditionalClass: string = isSide
+    ? " lg mb-12 lg:w-11/12 lg:h-48 lg:card-side"
+    : " lg:mb-8 lg:w-64";
+const titleAdditonalClass: string = isSide ? " w-full lg:h-8" : "";
+const contentAdditionalClass: string = isSide ? " lg:h-8" : "";
 ---
 
 <div
-    class="card w-72 bg-base-100 active:shadow-2xl shadow-xl overflow-hidden hover:opacity-80"
+    class={"card mb-6 w-80 bg-base-100 active:shadow-2xl shadow-xl overflow-hidden hover:opacity-80" +
+        cardAdditionalClass}
 >
     <Eyecatch
         eyecatch={eyecatch}
-        date={postDate.date}
-        month={postDate.month}
-        noImageUrl={noImageUrl}
+        date={eyecatchDate.date}
+        month={eyecatchDate.month}
     />
-    <div class="card-body">
-        <h2 class="card-title text-base">
+    <div class="card-body w-full">
+        <h2
+            class={"card-title text-base overflow-hidden w-full h-12" +
+                titleAdditonalClass}
+        >
             {truncatedTitle}
         </h2>
-        <p class="content text-sm">{truncatedContent}</p>
-        <div class="card-actions justify-end">
+        <p
+            class={"content text-sm overflow-hidden w-full h-16" +
+                contentAdditionalClass}
+            set:html={truncatedContent}
+        />
+        <div class="card-actions justify-end h-1">
             {
                 categories.map((category) => (
                     <div class="badge badge-sm badge-primary">{category}</div>
@@ -59,12 +72,12 @@ const categories = category ? [category.name] : [];
         width: 100%;
     }
     .card-title {
-        height: 50px;
-        overflow: hidden;
+        /* height: 50px; */
+        /* overflow: hidden; */
     }
     .content {
-        height: 80px;
-        overflow: hidden;
+        /* height: 80px; */
+        /* overflow: hidden; */
     }
     .badge {
         font-size: 0.8em;

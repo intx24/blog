@@ -1,24 +1,17 @@
-export type Blog = {
-    contents: [
-        {
-            id: string;
-            title: string;
-            content: string;
-            createdAt: string;
-            category?: BlogContentCategory
-            eyecatch?: BlogContentEyecatch
-        }
-    ];
+export type BlogList = {
+    contents: BlogContent[];
     totalCount: number;
     offset: number;
     limit: number;
 }
 
-export type BlogDetail = {
+export type BlogContent = {
     id: string;
-    createdAt: string;
     title: string;
     content: string;
+    createdAt: string;
+    category?: BlogContentCategory
+    eyecatch?: BlogContentEyecatch
 }
 
 export type BlogContentCategory = {

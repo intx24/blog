@@ -1,17 +1,17 @@
 ---
 import { BlogContentEyecatch } from "../types/blogTypes";
+import { noImageUrl } from "../consts";
 interface Props {
     eyecatch?: BlogContentEyecatch;
     date: string;
     month: string;
-    noImageUrl: string;
 }
-const { eyecatch, date, month, noImageUrl } = Astro.props;
+const { eyecatch, date, month } = Astro.props;
 const imageUrl = eyecatch?.url ?? noImageUrl;
 ---
 
-<figure class="eyecatch">
-    <img src={imageUrl} alt="eyecatch" />
+<figure class="eyecatch bg-violet-300">
+    <img class="h-40" src={imageUrl} alt="eyecatch" />
     <div class="time">
         <div class="date">{date}</div>
         <div class="month">{month}</div>
@@ -25,6 +25,7 @@ const imageUrl = eyecatch?.url ?? noImageUrl;
         left: 0;
         background: rgba(255, 255, 255, 0.5);
         width: 50px;
+        height: 50px;
         text-align: center;
         padding: 0.5em 0;
     }

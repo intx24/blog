@@ -3,3 +3,5 @@
 
 export const SITE_TITLE = "Blog";
 export const SITE_DESCRIPTION = "Someone's blog";
+export const noImageUrl = "/images/eyecatch/noimage.png";
+export const profileIcon100Url = "/images/icon/yoshi_skyblue_100.png";

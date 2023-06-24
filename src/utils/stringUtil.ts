@@ -9,3 +9,10 @@ export function truncate(str: string, digit: number) {
         return str;
     }
 }
+
+export function addHtmlClass(clazz: string, array?: string[]) {
+    if (array == null || array.length == 0) {
+        return clazz;
+    }
+    return clazz + " " + array?.join(' ');
+}

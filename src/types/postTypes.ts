@@ -1,4 +1,4 @@
-export type PostDate = {
+export type PostCardEyecatchDate = {
     date: string;
     month: string;
 }
