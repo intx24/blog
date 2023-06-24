@@ -1,0 +1,37 @@
+---
+import { BlogContentEyecatch } from "../types/blogTypes";
+interface Props {
+    eyecatch?: BlogContentEyecatch;
+    date: string;
+    month: string;
+    noImageUrl: string;
+}
+const { eyecatch, date, month, noImageUrl } = Astro.props;
+const imageUrl = eyecatch?.url ?? noImageUrl;
+---
+
+<figure class="eyecatch">
+    <img src={imageUrl} alt="eyecatch" />
+    <div class="time">
+        <div class="date">{date}</div>
+        <div class="month">{month}</div>
+    </div>
+</figure>
+
+<style>
+    .time {
+        position: absolute;
+        top: 0px;
+        left: 0;
+        background: rgba(255, 255, 255, 0.5);
+        width: 50px;
+        text-align: center;
+        padding: 0.5em 0;
+    }
+    .time .date {
+        font-weight: bolder;
+    }
+    .time .month {
+        font-size: 0.7rem;
+    }
+</style>

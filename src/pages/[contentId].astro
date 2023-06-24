@@ -1,0 +1,32 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+import Layout from "../layouts/Layout.astro";
+
+import { findAll, findById } from "../repositories/blogRepository";
+import { BlogDetail } from "../types/blogTypes";
+
+export async function getStaticPaths() {
+	const res = await findAll({ fields: ["id"] });
+	return res.contents.map((content) => ({
+		params: { contentId: content.id },
+	}));
+}
+
+const { contentId } = Astro.params;
+const blogData: BlogDetail | null =
+	contentId == null ? null : await findById(contentId);
+const title = `${blogData?.title ?? ""} | ${SITE_TITLE}`;
+console.log(blogData);
+---
+
+<Layout title={title}>
+	<main>
+		<div class="container mx-auto w-6/12">
+			<h1 class="mt-8 mb-8 text-2xl font-bold">{blogData?.title}</h1>
+			<div set:html={blogData?.content ?? ""} />
+		</div>
+	</main>
+</Layout>

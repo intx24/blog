@@ -1,36 +1,72 @@
 ---
-import type { Eyecatch } from "../types/microcmsTypes";
+import Eyecatch from "./Eyecatch.astro";
 import { toPostDate } from "../utils/dateUtil";
 import { removeTags, truncate } from "../utils/stringUtil";
+import { BlogContentCategory, BlogContentEyecatch } from "../types/blogTypes";
 
-export interface postProps {
+export interface Props {
+    contentId: string;
     title: string;
-    href: string;
     content: string;
-    eyecatch?: Eyecatch;
+    eyecatch?: BlogContentEyecatch;
+    category?: BlogContentCategory;
     createdAt: string;
 }
 
-const { title, href, content, eyecatch, createdAt } = Astro.props;
+const { contentId, title, content, eyecatch, createdAt, category } =
+    Astro.props;
 const postDate = toPostDate(createdAt);
-const truncatedContent = truncate(removeTags(content), 15);
-const noimageUrl = "/image/post/noimage.png";
+const truncatedTitle = truncate(title ?? "", 25);
+const truncatedContent = truncate(removeTags(content ?? ""), 60);
+const noImageUrl = "/images/post/noimage.png";
+const categories = category ? [category.name] : [];
 ---
 
 <div
-    class="card w-80 bg-base-100 blur-sm hover:blur-none active:shadow-2xl shadow-xl"
+    class="card w-72 bg-base-100 active:shadow-2xl shadow-xl overflow-hidden hover:opacity-80"
 >
-    <figure>
-        <img src={eyecatch?.url ?? noimageUrl} alt="eyecatch" />
-    </figure>
+    <Eyecatch
+        eyecatch={eyecatch}
+        date={postDate.date}
+        month={postDate.month}
+        noImageUrl={noImageUrl}
+    />
     <div class="card-body">
         <h2 class="card-title text-base">
-            {title}
+            {truncatedTitle}
         </h2>
-        <p class="text-sm">{truncatedContent}</p>
+        <p class="content text-sm">{truncatedContent}</p>
         <div class="card-actions justify-end">
-            <div class="badge badge-outline">Fashion</div>
-            <div class="badge badge-outline">Products</div>
+            {
+                categories.map((category) => (
+                    <div class="badge badge-sm badge-primary">{category}</div>
+                ))
+            }
         </div>
     </div>
+    <a class="link" href={`${contentId}`}></a>
 </div>
+
+<style>
+    .card {
+        position: relative;
+    }
+    .link {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+    }
+    .card-title {
+        height: 50px;
+        overflow: hidden;
+    }
+    .content {
+        height: 80px;
+        overflow: hidden;
+    }
+    .badge {
+        font-size: 0.8em;
+    }
+</style>

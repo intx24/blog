@@ -1,25 +1,48 @@
 ---
-import HeaderLink from './HeaderLink.astro';
-import { SITE_TITLE } from '../consts';
+import HeaderLink from "./HeaderLink.astro";
+import { SITE_TITLE } from "../consts";
 ---
 
 <header>
-	<h2>
-		{SITE_TITLE}
-	</h2>
-	<nav>
-		<HeaderLink href="/">Home</HeaderLink>
-		<HeaderLink href="/blog">Blog</HeaderLink>
-		<HeaderLink href="/about">About</HeaderLink>
-		<HeaderLink href="https://twitter.com/astrodotbuild" target="_blank">Twitter</HeaderLink>
-		<HeaderLink href="https://github.com/withastro/astro" target="_blank">GitHub</HeaderLink>
-	</nav>
+	<div class="navbar bg-violet-300">
+		<div class="navbar-start"></div>
+		<div class="navbar-center">
+			<a href="/" class="btn btn-ghost normal-case text-xl"
+				>{SITE_TITLE}</a
+			>
+		</div>
+		<div class="navbar-end">
+			<div class="dropdown dropdown-end">
+				<label tabindex="0" class="btn btn-ghost btn-circle avatar">
+					<div class="w-10 rounded-full">
+						<img src="/images/icon/yoshi_skyblue_100.jpg" />
+					</div>
+				</label>
+				<ul
+					tabindex="0"
+					class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+				>
+					<li>
+						<a href="/profile">Profile</a>
+					</li>
+					<!-- <li>
+						<a class="justify-between">
+							Profile
+							<span class="badge">New</span>
+						</a>
+					</li> -->
+					<!-- <li><a>Settings</a></li> -->
+					<!-- <li><a>Logout</a></li> -->
+				</ul>
+			</div>
+		</div>
+	</div>
 </header>
 <style>
-	header {
+	/* header {
 		margin: 0em 0 2em;
 	}
 	h2 {
 		margin: 0.5em 0;
-	}
+	} */
 </style>
