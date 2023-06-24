@@ -25,6 +25,7 @@ const date = blogContent?.createdAt
 	? toPostDate(blogContent.createdAt)
 	: "yyyy-MM-dd";
 const imageUrl = blogContent?.eyecatch?.url ?? noImageUrl;
+console.log(blogContent);
 ---
 
 <Layout title={layoutTitle}>
@@ -42,7 +43,7 @@ const imageUrl = blogContent?.eyecatch?.url ?? noImageUrl;
 			}
 			<div class="mb-8"></div>
 			<div
-				class="content w-full leading-8 overflow-hidden"
+				class="content w-full leading-8 overflow-hidden prose"
 				set:html={content}
 			/>
 		</div>
