@@ -1,0 +1,36 @@
+---
+import type { Eyecatch } from "../types/microcmsTypes";
+import { toPostDate } from "../utils/dateUtil";
+import { removeTags, truncate } from "../utils/stringUtil";
+
+export interface postProps {
+    title: string;
+    href: string;
+    content: string;
+    eyecatch?: Eyecatch;
+    createdAt: string;
+}
+
+const { title, href, content, eyecatch, createdAt } = Astro.props;
+const postDate = toPostDate(createdAt);
+const truncatedContent = truncate(removeTags(content), 15);
+const noimageUrl = "/image/post/noimage.png";
+---
+
+<div
+    class="card w-80 bg-base-100 blur-sm hover:blur-none active:shadow-2xl shadow-xl"
+>
+    <figure>
+        <img src={eyecatch?.url ?? noimageUrl} alt="eyecatch" />
+    </figure>
+    <div class="card-body">
+        <h2 class="card-title text-base">
+            {title}
+        </h2>
+        <p class="text-sm">{truncatedContent}</p>
+        <div class="card-actions justify-end">
+            <div class="badge badge-outline">Fashion</div>
+            <div class="badge badge-outline">Products</div>
+        </div>
+    </div>
+</div>

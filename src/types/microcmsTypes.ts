@@ -3,10 +3,12 @@ export type BlogsData = {
         {
             id: string;
             title: string;
+            content: string;
             createdAt: string;
-            category: {
+            category?: {
                 name: string;
             };
+            eyecatch?: Eyecatch
         }
     ];
     totalCount: number;
@@ -19,4 +21,10 @@ export type BlogDetail = {
     createdAt: string;
     title: string;
     content: string;
+}
+
+export type Eyecatch = {
+    url: string;
+    height: number;
+    width: number;
 }
