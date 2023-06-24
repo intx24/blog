@@ -22,7 +22,7 @@ const truncatedContent = truncate(removeTags(content ?? "No content"), 10000);
 const categories = category ? [category.name] : [];
 
 const cardAdditionalClass: string = isSide
-    ? " lg mb-12 lg:w-11/12 lg:h-48 lg:card-side"
+    ? " lg:mb-12 lg:w-11/12 lg:h-48 lg:card-side"
     : " lg:mb-8 lg:w-64";
 const titleAdditonalClass: string = isSide ? " w-full lg:h-8" : "";
 const contentAdditionalClass: string = isSide ? " lg:h-8" : "";
